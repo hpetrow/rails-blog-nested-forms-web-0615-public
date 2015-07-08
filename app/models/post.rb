@@ -5,4 +5,10 @@ class Post < ActiveRecord::Base
   has_many :tags, :through => :post_tags
 
   validates_presence_of :name, :content
+
+  def tags_attributes=(tags)
+    tags.each do |i, tag_hash|
+      self.tags.build(name: tag_hash[:name]) if tag_hash[:name].present?
+    end
+  end
 end
